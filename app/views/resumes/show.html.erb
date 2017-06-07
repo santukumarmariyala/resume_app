@@ -1,0 +1,48 @@
+<h2><%= t(:show, :default => "Show") %> <%= t('app.models.resume.bs_caption', :default => 'resume') %></h2>
+
+  <p>
+    <b><%= t('app.models.resume.bs_attributes.name', :default => 'name') %>:</b>
+      <%= @resume.name %>
+  </p>
+  <p>
+    <b><%= t('app.models.resume.bs_attributes.technology', :default => 'technology') %>:</b>
+      <%= @resume.technology %>
+  </p>
+  <p>
+    <b><%= t('app.models.resume.bs_attributes.degree', :default => 'degree') %>:</b>
+      <%= @resume.degree %>
+  </p>
+  <p>
+    <b><%= t('app.models.resume.bs_attributes.tenth_percentage', :default => 'tenth_percentage') %>:</b>
+      <%= @resume.tenth_percentage %>
+  </p>
+  <p>
+    <b><%= t('app.models.resume.bs_attributes.plus_two_percentage', :default => 'plus_two_percentage') %>:</b>
+      <%= @resume.plus_two_percentage %>
+  </p>
+  <p>
+    <b><%= t('app.models.resume.bs_attributes.graduation_percentage', :default => 'graduation_percentage') %>:</b>
+      <%= @resume.graduation_percentage %>
+  </p>
+  <p>
+    <b><%= t('app.models.resume.bs_attributes.pg_percentage', :default => 'pg_percentage') %>:</b>
+      <%= @resume.pg_percentage %>
+  </p>
+  <p>
+    <b><%= t('app.models.resume.bs_attributes.projects', :default => 'projects') %>:</b>
+      <%= @resume.projects %>
+  </p>
+  <p>
+    <b><%= t('app.models.resume.bs_attributes.phone', :default => 'phone') %>:</b>
+      <%= @resume.phone %>
+  </p>
+  <p>
+    <b><%= t('app.models.resume.bs_attributes.email', :default => 'email') %>:</b>
+      <%= @resume.email %>
+  </p>
+
+<!-- Beautiful_scaffold - AddField - Field - Do not remove -->
+
+<%= link_to t(:edit, :default => "Edit"), edit_resume_path(@resume), :class => "btn btn-default" %>
+<%= link_to t(:back, :default => "Back"), resumes_path, :class => "btn btn-default" %>
+

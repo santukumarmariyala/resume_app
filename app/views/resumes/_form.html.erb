@@ -1,0 +1,58 @@
+
+<%= form_for(@resume) do |f| %>
+  <% if @resume.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@resume.errors.count, "error") %> prohibited this resume from being saved:</h2>
+
+      <ul>
+        <% @resume.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+      </ul>
+    </div>
+  <% end %>
+      <div class="form-group">
+      <%= f.label :name, t('app.models.resume.bs_attributes.name', :default => 'name').capitalize, :class => "control-label" %>
+      <%= f.text_field :name, :class => "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :technology, t('app.models.resume.bs_attributes.technology', :default => 'technology').capitalize, :class => "control-label" %>
+      <%= f.text_field :technology, :class => "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :degree, t('app.models.resume.bs_attributes.degree', :default => 'degree').capitalize, :class => "control-label" %>
+      <%= f.text_field :degree, :class => "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :tenth_percentage, t('app.models.resume.bs_attributes.tenth_percentage', :default => 'tenth_percentage').capitalize, :class => "control-label" %>
+      <%= f.text_field :tenth_percentage, :class => "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :plus_two_percentage, t('app.models.resume.bs_attributes.plus_two_percentage', :default => 'plus_two_percentage').capitalize, :class => "control-label" %>
+      <%= f.text_field :plus_two_percentage, :class => "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :graduation_percentage, t('app.models.resume.bs_attributes.graduation_percentage', :default => 'graduation_percentage').capitalize, :class => "control-label" %>
+      <%= f.text_field :graduation_percentage, :class => "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :pg_percentage, t('app.models.resume.bs_attributes.pg_percentage', :default => 'pg_percentage').capitalize, :class => "control-label" %>
+      <%= f.text_field :pg_percentage, :class => "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :projects, t('app.models.resume.bs_attributes.projects', :default => 'projects').capitalize, :class => "control-label" %>
+      <%= f.text_area :projects, :rows => 5, :class => "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :phone, t('app.models.resume.bs_attributes.phone', :default => 'phone').capitalize, :class => "control-label" %>
+      <%= f.text_field :phone, :class => "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :email, t('app.models.resume.bs_attributes.email', :default => 'email').capitalize, :class => "control-label" %>
+      <%= f.text_field :email, :class => "form-control" %>
+    </div>
+<!-- Beautiful_scaffold - AddField - Do not remove -->
+  <div>
+    <%= f.submit :class => "btn btn-primary", :data => { :disable_with => t(:saving, :default => "Saving...") } %>
+  </div>
+<% end %>
+
+

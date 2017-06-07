@@ -1,0 +1,21 @@
+<h2><%= t(:treeview, :default => 'Treeview') %> <%= t('app.models.resume.bs_caption', :default => 'resume') %></h2>
+
+<%
+namespace_for_url = ""
+plural_model_name = "resumes"
+model_name        = "resume"
+opened_node       = Resume.select(:id).all.map{ |g| "'treeelt_" + g.id.to_s + "'" }.join(',').html_safe
+%>
+
+<div id="treeview" data-model="<%= model_name %>" data-url="/<%= namespace_for_url %><%= plural_model_name %>/" data-opened="[<%= opened_node %>]">
+  <ul>
+    <% Resume.transaction do %>
+    <% ar = Resume.where(:resume_id => nil) %>
+    <% ar = ar.order("position") if Resume.column_names.include?("position") %>
+      <% for g in ar.all %>
+        <%= build_treeview(g, 'resumes') %>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+

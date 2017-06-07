@@ -1,0 +1,4 @@
+<!-- Beautiful Scaffold Menu Do Not Touch This -->
+      <li class="<%= "active" if params[:controller] == "resumes" %>">
+        <%= link_to t('app.models.resume.bs_caption_plural', :default => 'resume').capitalize, resumes_path %>
+      </li>

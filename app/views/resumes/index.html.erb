@@ -1,0 +1,229 @@
+<h2><%= t(:listing, :default => "Listing") %> <%= t('app.models.resume.bs_caption_plural', :default => 'resume') %></h2>
+
+<p>
+  <%= link_to '<i class="fa fa-plus"></i> '.html_safe + t(:new, :default => "New") + ' ' + t('app.models.resume.bs_caption', :default => 'resume'), new_resume_path, :class => "btn btn-default" %>
+  <% if Resume.columns.map(&:name).include?("resume_id") then %>
+    <%= link_to '<i class="fa fa-folder-close"></i> '.html_safe + t(:treeview, :default => "Treeview") + ' ' + t('app.models.resume.bs_caption', :default => 'resume'), treeview_resumes_path, :class => "btn btn-default" %>
+  <% end %>
+</p>
+
+<%= render :partial => "layouts/mass_inserting", :locals => { :engine => '', :namespace => '', :model_name => 'resume', :model_columns => ['name','technology','degree','tenth_percentage','plus_two_percentage','graduation_percentage','pg_percentage','projects','phone','email'] } %>
+
+<%# Set your scopes below (string in array) %>
+<% scopes = [] %>
+<% if not scopes.blank? then %>
+<div class="btn-toolbar">
+  <div class="btn-group">
+    <%= link_to "All (#{@resume_scope_for_scope.count})", resumes_path(:scope => ""), :class => "btn btn-default #{((session[:scope][:resume].to_s == '') ? 'active' : '')}" %>
+    <% for scope in scopes %>
+    <%= link_to "#{scope} (#{@resume_scope_for_scope.send(scope).count})", resumes_path(:scope => scope), :class => "btn btn-default #{((session[:scope][:resume].to_s == scope) ? 'active' : '')}" %>
+    <% end %>
+  </div>
+</div>
+<% end %>
+
+<div class="row">
+  <div class="col-md-12">
+    <a class="btn btn-xs btn-default" id="hide-menu-btn">
+      <i class="fa fa-caret-left"></i>
+      <i class="fa fa-caret-left"></i>
+    </a>
+    <a class="btn btn-xs btn-default" id="show-menu-btn">
+      <i class="fa fa-caret-right"></i>
+      <i class="fa fa-caret-right"></i>
+    </a>
+
+    <a class="btn btn-xs btn-default pull-right" id="hide-search-btn">
+      <i class="fa fa-caret-right"></i>
+      <i class="fa fa-caret-right"></i>
+    </a>
+    <a class="btn btn-xs btn-default pull-right" id="show-search-btn">
+      <i class="fa fa-caret-left"></i>
+      <i class="fa fa-caret-left"></i>
+    </a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-9">
+    <%= form_tag  batch_resumes_path, :class => "form-inline" do %>
+      <div class="well well-small">
+        <label class="control-label" for="select01"><%= t(:batch, :default => "Batch") %></label>
+
+        <select id="select01" name="actionprocess" class="form-control">
+          <option value="destroy"><%= t(:destroy, :default => "Destroy") %></option>
+
+          <!-- Beautiful_scaffold - AddField - Batch - Do not remove -->
+        </select>
+        <button class="btn btn-default" type="submit"><i class="fa fa-ok"></i> <%= t(:process, :default => "Process") %></button>
+      </div>
+
+      <%= render :partial => "layouts/modal_columns", :locals => { :engine_name => '', :model_name => "resume", :model_columns => ['name','technology','degree','tenth_percentage','plus_two_percentage','graduation_percentage','pg_percentage','projects','phone','email','created_at','updated_at'] } %>
+
+      <table class="table table-striped table-bordered table-condensed">
+        <thead>
+          <tr>
+            <th class="ac">
+              <a class="" data-toggle="modal" href="#modal-columns" title="<%= t(:select_columns, :default => "Select Columns") %>" ><i class="fa fa-th-list"></i></a>
+            </th>
+            <th>
+              <%= check_box_tag :checkall, '' %>
+            </th>
+            <th <%= visible_column("resume", "name") %> class="bs-col-name">
+              <%= sorting_header("resume", "name", "") %>
+            </th>
+            <th <%= visible_column("resume", "technology") %> class="bs-col-technology">
+              <%= sorting_header("resume", "technology", "") %>
+            </th>
+            <th <%= visible_column("resume", "degree") %> class="bs-col-degree">
+              <%= sorting_header("resume", "degree", "") %>
+            </th>
+            <th <%= visible_column("resume", "tenth_percentage") %> class="bs-col-tenth_percentage">
+              <%= sorting_header("resume", "tenth_percentage", "") %>
+            </th>
+            <th <%= visible_column("resume", "plus_two_percentage") %> class="bs-col-plus_two_percentage">
+              <%= sorting_header("resume", "plus_two_percentage", "") %>
+            </th>
+            <th <%= visible_column("resume", "graduation_percentage") %> class="bs-col-graduation_percentage">
+              <%= sorting_header("resume", "graduation_percentage", "") %>
+            </th>
+            <th <%= visible_column("resume", "pg_percentage") %> class="bs-col-pg_percentage">
+              <%= sorting_header("resume", "pg_percentage", "") %>
+            </th>
+            <th <%= visible_column("resume", "projects") %> class="bs-col-projects">
+              <%= sorting_header("resume", "projects", "") %>
+            </th>
+            <th <%= visible_column("resume", "phone") %> class="bs-col-phone">
+              <%= sorting_header("resume", "phone", "") %>
+            </th>
+            <th <%= visible_column("resume", "email") %> class="bs-col-email">
+              <%= sorting_header("resume", "email", "") %>
+            </th>
+
+            <!-- Beautiful_scaffold - AddField - Header - Do not remove -->
+            <th <%= visible_column("resume", "created_at") %> class="bs-col-created_at">
+              <%= sorting_header("resume", "created_at", "") %>
+            </th>
+            <th <%= visible_column("resume", "updated_at") %> class="bs-col-updated_at">
+              <%= sorting_header("resume", "updated_at", "") %>
+            </th>
+            <th colspan="3">
+              <label class="checkbox">
+                <%= check_box_tag :checkallelt, 'all' %>
+                <%= pluralize(@resume_scope.count, t('app.models.resume.bs_caption', :default => 'resume'), t('app.models.resume.bs_caption_plural', :default => 'resume')) %>
+              </label>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @resumes.each do |resume| %>
+          <tr class="line-<%= cycle("1","2") %>">
+            <td class="ar"><%= resume.id %></td>
+            <td><%= check_box_tag "ids[]",resume.id, false, :class => 'cbbatch' %></td>
+            <td <%= visible_column("resume", "name") %> class="bs-col-name <%= align_attribute("string") %>">
+                <%= resume.name %>
+            </td>
+            <td <%= visible_column("resume", "technology") %> class="bs-col-technology <%= align_attribute("string") %>">
+                <%= resume.technology %>
+            </td>
+            <td <%= visible_column("resume", "degree") %> class="bs-col-degree <%= align_attribute("string") %>">
+                <%= resume.degree %>
+            </td>
+            <td <%= visible_column("resume", "tenth_percentage") %> class="bs-col-tenth_percentage <%= align_attribute("string") %>">
+                <%= resume.tenth_percentage %>
+            </td>
+            <td <%= visible_column("resume", "plus_two_percentage") %> class="bs-col-plus_two_percentage <%= align_attribute("string") %>">
+                <%= resume.plus_two_percentage %>
+            </td>
+            <td <%= visible_column("resume", "graduation_percentage") %> class="bs-col-graduation_percentage <%= align_attribute("string") %>">
+                <%= resume.graduation_percentage %>
+            </td>
+            <td <%= visible_column("resume", "pg_percentage") %> class="bs-col-pg_percentage <%= align_attribute("string") %>">
+                <%= resume.pg_percentage %>
+            </td>
+            <td <%= visible_column("resume", "projects") %> class="bs-col-projects <%= align_attribute("text") %>">
+                <%= resume.projects %>
+            </td>
+            <td <%= visible_column("resume", "phone") %> class="bs-col-phone <%= align_attribute("string") %>">
+                <%= resume.phone %>
+            </td>
+            <td <%= visible_column("resume", "email") %> class="bs-col-email <%= align_attribute("string") %>">
+                <%= resume.email %>
+            </td>
+<!-- Beautiful_scaffold - AddField - Column - Do not remove -->
+            <td <%= visible_column("resume", "created_at") %> class="bs-col-created_at <%= align_attribute("datetime") %>">
+              <%= l(resume.created_at, :format => :long) %>
+            </td>
+            <td <%= visible_column("resume", "updated_at") %> class="bs-col-updated_at <%= align_attribute("datetime") %>">
+              <%= l(resume.updated_at, :format => :long) %>
+            </td>
+            <td class="ac am"><%= link_to '<i class="fa fa-search"></i>'.html_safe, resume_path(resume), :title => t(:show, :default => "Show") %></td>
+            <td class="ac am"><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_resume_path(resume), :title => t(:edit, :default => "Edit") %></td>
+            <td class="ac am"><%= link_to '<i class="fa fa-times"></i>'.html_safe, resume_path(resume), :data => { :confirm => t(:are_you_sure, :default => "Are you sure?") }, :method => :delete, :title => t(:destroy, :default => "Destroy") %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div class="btn-toolbar">
+        <div class="btn-group">
+          <% clean_params %>
+          <%= will_paginate @resumes,
+                  :inner_window => 0,
+                  :outer_window => 0,
+                  :previous_label => t(:prev, :default => "Previous"),
+                  :next_label => t(:next, :default => "Next") %>
+
+        </div>
+        <div class="btn-group pull-right">
+          <%= link_to '<i class="fa fa-download"></i> CSV'.html_safe,  resumes_path(:format => :csv), :class => "btn btn-default" %>
+          <%= link_to '<i class="fa fa-download"></i> XML'.html_safe,  resumes_path(:format => :xml), :class => "btn btn-default" %>
+          <%= link_to '<i class="fa fa-download"></i> JSON'.html_safe, resumes_path(:format => :json), :class => "btn btn-default" %>
+          <%= link_to '<i class="fa fa-download"></i> PDF'.html_safe,  resumes_path(:format => :pdf), :class => "btn btn-default" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-3">
+    <%= search_form_for @q, :url => search_resumes_path, :html => { :class => "well well-small search-and-filter" }, :method => :post do |f| %>
+
+      <h3><%= t("search_and_filter", :default => "Search & filter") %></h3>
+
+      <%= ransack_field("resume", "name", f, "Name") %>
+      <%= ransack_field("resume", "technology", f, "Technology") %>
+      <%= ransack_field("resume", "degree", f, "Degree") %>
+      <%= ransack_field("resume", "tenth_percentage", f, "Tenth_percentage") %>
+      <%= ransack_field("resume", "plus_two_percentage", f, "Plus_two_percentage") %>
+      <%= ransack_field("resume", "graduation_percentage", f, "Graduation_percentage") %>
+      <%= ransack_field("resume", "pg_percentage", f, "Pg_percentage") %>
+      <%= ransack_field("resume", "projects", f, "Projects") %>
+      <%= ransack_field("resume", "phone", f, "Phone") %>
+      <%= ransack_field("resume", "email", f, "Email") %>
+
+
+      <!-- Beautiful_scaffold - AddField - Search - Do not remove -->
+
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <a class="accordion-toggle" data-toggle="collapse-next">
+              <%= t(:more_options, :default => "More options...") %>
+            </a>
+          </div>
+          <div class="panel-collapse collapse">
+            <div class="panel-body">
+              <%= ransack_field("resume", "created_at", f, "Created At") %>
+              <%= ransack_field("resume", "updated_at", f, "Updated At") %>
+              <%= ransack_field("resume", "id", f, "Id") %>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <%= f.submit t(:filter, :default => "Filter"), :class => "btn btn-primary" %>
+      <%= link_to  t(:cancel, :default => "Cancel"), resumes_path(:nosearch => "ok"), :class => "btn btn-default" %>
+    <% end %>
+  </div>
+</div>

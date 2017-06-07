@@ -1,0 +1,5 @@
+<h2><%= t(:new, :default => 'New') %> <%= t('app.models.resume.bs_caption', :default => 'resume') %></h2>
+
+<%= render 'form' %>
+
+<%= link_to t(:back, :default => "Back"), resumes_path, :class => "btn btn-default" %>
